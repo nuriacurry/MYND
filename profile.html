@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - BMCC Jobs</title>
+    <style>
+        :root {
+            --primary-color: #003d82;
+            --secondary-color: #0056b3;
+            --accent-color: #ffd700;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            color: white;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout-button {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .profile-header {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-picture:hover::after {
+            content: 'Change Photo';
+            position: absolute;
+            bottom: -20px;
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        .profile-info h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: #666;
+        }
+
+        .profile-sections {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .section-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--background-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, select, textarea {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .courses-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .course-entry {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .button-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .button-secondary {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .remove-button {
+            background-color: var(--error-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background-color: var(--background-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tag button {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .success-message {
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .transcript-upload {
+            border: 2px dashed #ddd;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 6px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .transcript-upload:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .availability-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .day-column {
+            text-align: center;
+        }
+
+        .time-slot {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .time-slot.selected {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">BMCC Campus Jobs</div>
+            <div class="nav-links">
+                <a href="job-landing.html">Jobs</a>
+                <button class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="success-message" id="successMessage">Profile updated successfully!</div>
+
+        <div class="profile-header">
+            <div class="profile-picture" onclick="document.getElementById('photoInput').click()">
+                <span>J</span>
+                <input type="file" id="photoInput" hidden accept="image/*">
+            </div>
+            <div class="profile-info">
+                <h1>John Doe</h1>
+                <p>Computer Science Major</p>
+                <p>EMPLID: 12345678</p>
+            </div>
+        </div>
+
+        <div class="profile-sections">
+            <!-- Personal Information -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Personal Information</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" value="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" value="Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="john.doe@stu.bmcc.cuny.edu" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="(123) 456-7890">
+                    </div>
+                    <div class="form-group">
+                        <label for="emplid">EMPLID</label>
+                        <input type="text" id="emplid" value="12345678" pattern="\d{8}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expectedGraduation">Expected Graduation</label>
+                        <input type="month" id="expectedGraduation">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Academic Information -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Academic Information</h2>
+                    <button class="button button-secondary" id="uploadTranscriptBtn">Upload Transcript</button>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="major">Major</label>
+                        <select id="major" required>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business Administration">Business Administration</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Liberal Arts">Liberal Arts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gpa">Current GPA</label>
+                        <input type="number" id="gpa" step="0.01" min="0" max="4" placeholder="4.00">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Courses</label>
+                        <div class="courses-list" id="coursesList">
+                            <div class="course-entry">
+                                <input type="text" placeholder="Course Code (e.g., CIS 115)" required>
+                                <input type="text" placeholder="Course Name" required>
+                                <button class="remove-button" onclick="removeCourse(this)">×</button>
+                            </div>
+                        </div>
+                        <button class="button button-secondary" onclick="addCourse()" style="margin-top: 1rem;">Add Course</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills & Experience -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Skills & Experience</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="skills">Skills</label>
+                        <input type="text" id="skillInput" placeholder="Type a skill and press Enter">
+                        <div class="skills-container" id="skillsContainer">
+                            <!-- Skills will be added here -->
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="experience">Work Experience</label>
+                        <textarea id="experience" placeholder="Describe your previous work experience..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work Preferences -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2 class="section-title">Work Preferences</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="preferredDepartment">Preferred Department</label>
+                        <select id="preferredDepartment">
+                            <option value="CIS">Computer Information Systems</option>
+                            <option value="Library">Library</option>
+                            <option value="Academic Affairs">Academic Affairs</option>
+                            <option value="Student Services">Student Services</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="workType">Work Type Preference</label>
+                        <select id="workType">
+                            <option value="Work Study">Work Study</option>
+                            <option value="Part-Time">Part-Time</option>
+                            <option value="Full-Time">Full-Time</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Available Hours</label>
+                        <div class="availability-grid">
+                            <!-- Days of the week -->
+                            <div class="day-column">
+                                <strong>Mon</strong>
+                                <div class="time-slot" onclick="toggleTimeSlot(this)">Morning</div>
+                                <div class="time-slot" onclick="toggleTimeSlot(this)">Afternoon</div>
+                                <div class="time-slot" onclick="toggleTimeSlot(this)">Evening</div>
+                            </div>
+                            <!-- Repeat for other days -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Save Button -->
+            <button class="button button-primary" onclick="saveProfile()" style="width: 100%;">Save Profile</button>
+        </div>
+    </div>
+
+    <script>
+        // Protect page from unauthorized access
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                window.location.href = 'index.html';
+                return;
+            }
+            initializeProfile();
+        });
+        
+        // Handle Skills
+        const skillInput = document.getElementById('skillInput');
+        const skillsContainer = document.getElementById('skillsContainer');
+        let skills = new Set();
+        
+        skillInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                e.preventDefault();
+                addSkill(this.value.trim());
+                this.value = '';
+            }
+        });
+        
+        function addSkill(skillName) {
+            if (!skills.has(skillName)) {
+                skills.add(skillName);
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.innerHTML = `
+                    ${skillName}
+                    <button onclick="removeSkill(this, '${skillName}')">&times;</button>
+                `;
+                skillsContainer.appendChild(skillTag);
+            }
+        }
+        
+        function removeSkill(button, skillName) {
+            skills.delete(skillName);
+            button.parentElement.remove();
+        }
+        
+        // Toggle Time Slot Selection
+        function toggleTimeSlot(slot) {
+            slot.classList.toggle('selected');
+        }
+        
+        // Profile Picture Handling
+        const photoInput = document.getElementById('photoInput');
+        const profilePicture = document.querySelector('.profile-picture span');
+        
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePicture.style.backgroundImage = `url(${e.target.result})`;
+                    profilePicture.textContent = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Transcript Upload
+        document.getElementById('uploadTranscriptBtn').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf';
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('transcript', file);
+                        
+                        const response = await fetch('/api/upload-transcript', {
+                            method: 'POST',
+                            body: formData
+                        });
+        
+                        const data = await response.json();
+                        if (data.success) {
+                            populateProfileData(data.profile);
+                            showSuccessMessage('Transcript uploaded and processed successfully!');
+                        }
+                    } catch (error) {
+                        showErrorMessage('Failed to upload transcript. Please try again.');
+                    }
+                }
+            };
+            input.click();
+        });
+        
+        // Add Course
+        function addCourse() {
+            const coursesList = document.getElementById('coursesList');
+            const newCourse = document.createElement('div');
+            newCourse.className = 'course-entry';
+            newCourse.innerHTML = `
+                <input type="text" placeholder="Course Code (e.g., CIS 115)" required>
+                <input type="text" placeholder="Course Name" required>
+                <button class="remove-button" onclick="removeCourse(this)">×</button>
+            `;
+            coursesList.appendChild(newCourse);
+        }
+        
+        // Remove Course
+        function removeCourse(button) {
+            button.parentElement.remove();
+        }
+        
+        // Populate Profile Data
+        function populateProfileData(profile) {
+            // Personal Information
+            if (profile.firstName) document.getElementById('firstName').value = profile.firstName;
+            if (profile.lastName) document.getElementById('lastName').value = profile.lastName;
+            if (profile.phone) document.getElementById('phone').value = profile.phone;
+            if (profile.emplid) document.getElementById('emplid').value = profile.emplid;
+            if (profile.expectedGraduation) document.getElementById('expectedGraduation').value = profile.expectedGraduation;
+        
+            // Academic Information
+            if (profile.major) document.getElementById('major').value = profile.major;
+            if (profile.gpa) document.getElementById('gpa').value = profile.gpa;
+            
+            // Courses
+            if (profile.courses && profile.courses.length > 0) {
+                const coursesList = document.getElementById('coursesList');
+                coursesList.innerHTML = ''; // Clear existing courses
+                profile.courses.forEach(course => {
+                    const courseEntry = document.createElement('div');
+                    courseEntry.className = 'course-entry';
+                    courseEntry.innerHTML = `
+                        <input type="text" value="${course.courseId}" required>
+                        <input type="text" value="${course.courseName}" required>
+                        <button class="remove-button" onclick="removeCourse(this)">×</button>
+                    `;
+                    coursesList.appendChild(courseEntry);
+                });
+            }
+        
+            // Skills
+            if (profile.skills && profile.skills.length > 0) {
+                skillsContainer.innerHTML = ''; // Clear existing skills
+                skills.clear();
+                profile.skills.forEach(skill => addSkill(skill));
+            }
+        
+            // Work Experience
+            if (profile.experience) document.getElementById('experience').value = profile.experience;
+        
+            // Preferences
+            if (profile.preferences) {
+                if (profile.preferences.department) {
+                    document.getElementById('preferredDepartment').value = profile.preferences.department;
+                }
+                if (profile.preferences.workType) {
+                    document.getElementById('workType').value = profile.preferences.workType;
+                }
+            }
+        }
+        
+        // Save Profile
+        async function saveProfile() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                showErrorMessage('User not authenticated');
+                return;
+            }
+        
+            // Gather all form data
+            const profileData = {
+                personal: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phone: document.getElementById('phone').value,
+                    emplid: document.getElementById('emplid').value,
+                    expectedGraduation: document.getElementById('expectedGraduation').value
+                },
+                academic: {
+                    major: document.getElementById('major').value,
+                    gpa: document.getElementById('gpa').value,
+                    courses: Array.from(document.getElementById('coursesList').children).map(course => ({
+                        courseId: course.children[0].value,
+                        courseName: course.children[1].value
+                    }))
+                },
+                skills: Array.from(skills),
+                experience: document.getElementById('experience').value,
+                preferences: {
+                    department: document.getElementById('preferredDepartment').value,
+                    workType: document.getElementById('workType').value,
+                    availability: getAvailability()
+                }
+            };
+        
+            try {
+                const response = await fetch(`/api/profile/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+        
+                const data = await response.json();
+                if (data.success) {
+                    showSuccessMessage('Profile updated successfully!');
+                } else {
+                    showErrorMessage(data.message || 'Failed to update profile');
+                }
+            } catch (error) {
+                showErrorMessage('An error occurred while saving the profile');
+            }
+        }
+        
+        // Get Availability
+        function getAvailability() {
+            const availability = {};
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const timeSlots = ['Morning', 'Afternoon', 'Evening'];
+            
+            days.forEach(day => {
+                availability[day] = timeSlots.filter(slot => {
+                    const element = document.querySelector(`[data-day="${day}"][data-slot="${slot}"]`);
+                    return element && element.classList.contains('selected');
+                });
+            });
+            
+            return availability;
+        }
+        
+        // Message Handling
+        function showSuccessMessage(message) {
+            const messageElement = document.getElementById('successMessage');
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+            messageElement.style.backgroundColor = 'var(--success-color)';
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+        
+        function showErrorMessage(message) {
+            const messageElement = document.getElementById('successMessage');
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+            messageElement.style.backgroundColor = 'var(--error-color)';
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Initialize Profile
+        async function initializeProfile() {
+            const userId = localStorage.getItem('userId');
+            try {
+                const response = await fetch(`/api/profile/${userId}`);
+                const profile = await response.json();
+                if (profile) {
+                    populateProfileData(profile);
+                }
+            } catch (error) {
+                showErrorMessage('Failed to load profile data');
+            }
+        }
+        
+        // Logout Function
+        function handleLogout() {
+            // Clear all stored user data
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            sessionStorage.clear(); // Clear any session storage as well
+            
+            // Redirect to login page
+            window.location.href = 'index.html';
+        }
+        
+        // Event Listeners
+        document.querySelector('.logout-button').addEventListener('click', handleLogout);
+        
+        // Prevent form submission on enter key
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.nodeName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        });
+        </script>

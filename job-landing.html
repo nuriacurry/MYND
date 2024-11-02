@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMCC Campus Jobs</title>
+    <style>
+        :root {
+            --primary-color: #003d82;
+            --secondary-color: #0056b3;
+            --accent-color: #ffd700;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            border-right: 1px solid #eaeaea;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: #666;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .user-profile {
+            padding: 1.5rem;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .profile-role {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 2rem;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-header p {
+            color: #666;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+
+            .logo-text,
+            .nav-item span,
+            .profile-info {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 60px;
+            }
+
+            .nav-menu {
+                align-items: center;
+            }
+
+            .nav-item {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo"></div>
+                <span class="logo-text">BMCC Jobs</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item" onclick="loadContent('dashboard')">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item active" onclick="loadContent('campus-jobs')">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Campus Jobs</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadContent('hr')">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span>HR</span>
+            </a>
+        </nav>
+
+        <div class="user-profile">
+            <div class="profile-pic">J</div>
+            <div class="profile-info">
+                <div class="profile-name">John Doe</div>
+                <div class="profile-role">Student</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+        <!-- Content will be loaded here -->
+    </main>
+
+    <script>
+        // Get user info from localStorage
+        const userId = localStorage.getItem('userId');
+        const userName = localStorage.getItem('userName') || 'User';
+        
+        // Update profile initial
+        document.querySelector('.profile-pic').textContent = userName.charAt(0);
+        document.querySelector('.profile-name').textContent = userName;
+
+        // Content loading function
+        async function loadContent(section) {
+            const mainContent = document.getElementById('mainContent');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Load appropriate content based on section
+            switch(section) {
+                case 'dashboard':
+                    mainContent.innerHTML = await loadDashboardContent();
+                    break;
+                case 'campus-jobs':
+                    mainContent.innerHTML = await loadJobsContent();
+                    break;
+                case 'hr':
+                    mainContent.innerHTML = await loadHRContent();
+                    break;
+            }
+        }
+
+        // Sample content loading functions
+        async function loadDashboardContent() {
+            return `
+                <div class="content-header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, ${userName}</p>
+                </div>
+                <!-- Add dashboard content -->
+            `;
+        }
+
+        async function loadJobsContent() {
+            // Your existing jobs grid content
+            return `
+                <div class="content-header">
+                    <h1>Campus Jobs</h1>
+                    <p>Find and apply for campus positions</p>
+                </div>
+                <div class="job-grid">
+                    <!-- Your existing job cards -->
+                </div>
+            `;
+        }
+
+        async function loadHRContent() {
+            return `
+                <div class="content-header">
+                    <h1>Human Resources</h1>
+                    <p>HR resources and information</p>
+                </div>
+                <!-- Add HR content -->
+            `;
+        }
+
+        // Initialize with Campus Jobs view
+        document.addEventListener('DOMContentLoaded', () => {
+            loadContent('campus-jobs');
+        });
+
+        // Handle logout
+        function handleLogout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
